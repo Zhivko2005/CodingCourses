@@ -1,0 +1,17 @@
+using System;
+using System.Data.SqlTypes;
+using CodingCourses.Common.Entities;
+using CodingCourses.DTOs;
+
+namespace CodingCourses.Services;
+
+public interface IUserService
+{
+    IEnumerable<User> GetAllUsers();
+    User? GetUserById(int id); 
+    User? UpdateUser(int id, UserUpdateDto userUpdateDto );
+    bool DeleteUser(int id);
+
+
+}
+ 
