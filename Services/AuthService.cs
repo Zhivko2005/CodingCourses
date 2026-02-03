@@ -7,6 +7,7 @@ using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
+using Microsoft.EntityFrameworkCore;
 
 namespace CodingCourses.Services;
 
@@ -40,7 +41,10 @@ public class AuthService : IAuthService
 
     public string? Login(UserLoginDto userLoginDto)
     {
-        var user = _context.Users.FirstOrDefault(u => u.Email == userLoginDto.Email);
+        var user = _context.Users
+        .Include(u => u.UserRoles)
+        .ThenInclude(ur => ur.Role)
+        .FirstOrDefault(u => u.Email == userLoginDto.Email);
         if (user == null || user.Password != userLoginDto.Password)
         {
             return null;
@@ -55,17 +59,33 @@ public class AuthService : IAuthService
             new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()),
             new Claim(ClaimTypes.Email, user.Email)
         };
-        var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["Jwt:Key"]!));
+        if (user.UserRoles != null)
+        {
+            foreach (var userRole in user.UserRoles)
+            {
+                if (userRole.Role != null)
+                {
+                
+                    claims.Add(new Claim(ClaimTypes.Role, userRole.Role.RoleName));
+                }
+            }
+        }
+        var keyString = _configuration["Jwt:Key"];
+        if (string.IsNullOrEmpty(keyString) || keyString.Length < 32)
+        {
+            throw new Exception("JWT Key must be at least 32 characters long!");
+        }
+        var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(keyString));
         var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
         var token = new JwtSecurityToken(
-            issuer: _configuration["Jwt:Issuer"],
-            audience: _configuration["Jwt:Audience"],
-            claims: claims,
-            expires: DateTime.Now.AddMinutes(30),
-            signingCredentials: creds
+        issuer: _configuration["Jwt:Issuer"],
+        audience: _configuration["Jwt:Audience"],
+        claims: claims,
+        expires: DateTime.Now.AddMinutes(60),
+        signingCredentials: creds
         );
         return new JwtSecurityTokenHandler().WriteToken(token);
     }
-
+    
      
 }

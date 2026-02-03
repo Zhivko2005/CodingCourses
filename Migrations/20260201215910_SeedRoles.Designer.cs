@@ -4,6 +4,7 @@ using CodingCourses.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace CodingCourses.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20260201215910_SeedRoles")]
+    partial class SeedRoles
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -73,19 +76,11 @@ namespace CodingCourses.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<decimal>("Price")
-                        .HasColumnType("decimal(18,2)");
-
-                    b.Property<int>("TeacherId")
-                        .HasColumnType("int");
-
                     b.Property<string>("Title")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("TeacherId");
 
                     b.ToTable("Courses");
                 });
@@ -261,17 +256,6 @@ namespace CodingCourses.Migrations
                     b.Navigation("Course");
                 });
 
-            modelBuilder.Entity("CodingCourses.Common.Entities.Course", b =>
-                {
-                    b.HasOne("CodingCourses.Common.Entities.User", "Teacher")
-                        .WithMany("TaughtCourses")
-                        .HasForeignKey("TeacherId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
-                    b.Navigation("Teacher");
-                });
-
             modelBuilder.Entity("CodingCourses.Common.Entities.CourseCategory", b =>
                 {
                     b.HasOne("CodingCourses.Common.Entities.Category", "Category")
@@ -388,8 +372,6 @@ namespace CodingCourses.Migrations
                     b.Navigation("Enrollments");
 
                     b.Navigation("Submissions");
-
-                    b.Navigation("TaughtCourses");
 
                     b.Navigation("UserRoles");
                 });

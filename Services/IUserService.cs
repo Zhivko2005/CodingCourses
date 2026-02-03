@@ -12,6 +12,7 @@ public interface IUserService
     User? UpdateUser(int id, UserUpdateDto userUpdateDto );
     bool DeleteUser(int id);
 
-
+    bool AssignRole(int userId, int roleId);
+    bool RemoveRole(int userId, int roleId);
 }
  

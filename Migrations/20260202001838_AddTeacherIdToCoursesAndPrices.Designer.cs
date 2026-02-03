@@ -4,6 +4,7 @@ using CodingCourses.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace CodingCourses.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20260202001838_AddTeacherIdToCoursesAndPrices")]
+    partial class AddTeacherIdToCoursesAndPrices
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -264,7 +267,7 @@ namespace CodingCourses.Migrations
             modelBuilder.Entity("CodingCourses.Common.Entities.Course", b =>
                 {
                     b.HasOne("CodingCourses.Common.Entities.User", "Teacher")
-                        .WithMany("TaughtCourses")
+                        .WithMany()
                         .HasForeignKey("TeacherId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
@@ -388,8 +391,6 @@ namespace CodingCourses.Migrations
                     b.Navigation("Enrollments");
 
                     b.Navigation("Submissions");
-
-                    b.Navigation("TaughtCourses");
 
                     b.Navigation("UserRoles");
                 });

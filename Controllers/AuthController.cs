@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using CodingCourses.Services;
+using Microsoft.AspNetCore.Authorization;
 namespace CodingCourses.Controllers
 {
     [Route("api/[controller]")]
@@ -38,5 +39,22 @@ namespace CodingCourses.Controllers
         {
             return Ok("Test endpoint is working.");
         }
+
+        [HttpGet("check")]
+    [Authorize] // Само проверява дали токенът е валиден
+    public IActionResult CheckToken()
+    {
+    var claims = User.Claims.Select(c => new 
+    { 
+        Type = c.Type, 
+        Value = c.Value 
+    }).ToList();
+
+    return Ok(new {
+        Username = User.Identity?.Name,
+        IsAuthenticated = User.Identity?.IsAuthenticated,
+        AllClaims = claims
+    });
+}
     }
 }

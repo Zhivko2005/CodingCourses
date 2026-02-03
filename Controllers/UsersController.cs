@@ -9,6 +9,7 @@ namespace CodingCourses.Controllers
 {  
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize(Roles = "Admin")]
     public class UsersController : ControllerBase
     {
         private readonly IUserService _userService;
@@ -31,7 +32,14 @@ namespace CodingCourses.Controllers
             {
                 return NotFound();
             }
-            return Ok(user);
+            var response = new UserResponseDto
+            {
+                Id = user.Id,
+                Username = user.Username,
+                Email = user.Email,
+                Roles = user.UserRoles.Select(ur => ur.Role.RoleName).ToList()
+            };
+            return Ok(response);
         }
 
         [HttpPut("{id}")]
@@ -54,6 +62,26 @@ namespace CodingCourses.Controllers
                 return NotFound();
             }
             return Ok("User deleted successfully.");
+        }
+        [HttpPost("{userId}/roles/{roleId}")] 
+        public IActionResult AssignRole(int userId, int roleId)
+        { 
+            var result = _userService.AssignRole(userId, roleId);
+            if (!result)
+            { 
+                return NotFound("User or Role not found.");
+            }
+            return Ok("Role assigned successfully.");
+        }
+        [HttpDelete("{userId}/roles/{roleId}")]
+        public IActionResult RemoveRole(int userId, int roleId)
+        {
+            var result = _userService.RemoveRole(userId, roleId);
+            if (!result)
+            {
+                return NotFound("User or Role not found.");
+            }
+            return Ok("Role removed successfully.");
         }
     }
 }

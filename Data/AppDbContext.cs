@@ -24,13 +24,40 @@ public class AppDbContext : DbContext
     {
         base.OnModelCreating(modelBuilder);
 
+     
         modelBuilder.Entity<UserRole>()
             .HasKey(ur => new { ur.UserId, ur.RoleId });
 
+     
         modelBuilder.Entity<CourseCategory>()
             .HasKey(cc => new { cc.CourseId, cc.CategoryId });
 
+        modelBuilder.Entity<CourseCategory>()
+            .HasOne(cc => cc.Course)
+            .WithMany(c => c.CourseCategories)
+            .HasForeignKey(cc => cc.CourseId);
+
+        modelBuilder.Entity<CourseCategory>()
+            .HasOne(cc => cc.Category)
+            .WithMany(cat => cat.CourseCategories)
+            .HasForeignKey(cc => cc.CategoryId);
+
+    
         modelBuilder.Entity<Enrollment>()
             .HasKey(e => new { e.UserId, e.CourseId });
-    }
+
+        
+        modelBuilder.Entity<Course>()
+            .HasOne(c => c.Teacher)
+            .WithMany(u => u.TaughtCourses) 
+            .HasForeignKey(c => c.TeacherId)
+            .OnDelete(DeleteBehavior.Restrict);
+
+    
+        modelBuilder.Entity<Role>().HasData(
+            new Role { Id = 1, RoleName = "Admin" },
+            new Role { Id = 2, RoleName = "Instructor" },
+            new Role { Id = 3, RoleName = "Student" }
+        );
+}
 }

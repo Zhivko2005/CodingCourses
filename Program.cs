@@ -2,10 +2,10 @@
 using Microsoft.EntityFrameworkCore;
 using CodingCourses.Data;
 using CodingCourses.Services;
-using Microsoft.IdentityModel.Tokens;
-using CodingCourses.Controllers;
+using Microsoft.IdentityModel.Tokens; 
+using Microsoft.AspNetCore.Mvc.NewtonsoftJson;
 var builder = WebApplication.CreateBuilder(args);
- 
+
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
 
 builder.Services.AddOpenApi();
@@ -13,11 +13,17 @@ builder.Services.AddDbContext<AppDbContext>(options =>
     options.UseSqlServer(connectionString));
 
 builder.Services.AddControllers()
-.AddApplicationPart(typeof(AuthService).Assembly) ;
-
+.AddNewtonsoftJson(options =>
+    options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore)
+.AddApplicationPart(typeof(AuthService).Assembly);
 
 builder.Services.AddScoped<IAuthService, AuthService>();
 builder.Services.AddScoped<IUserService, UserService>();
+builder.Services.AddScoped<ICourseService, CourseService>();
+builder.Services.AddScoped<ICategoryService, CategoryService>();
+builder.Services.AddScoped<ILessonService, LessonService>();
+builder.Services.AddScoped<IAssignmentService, AssignmentService>();
+builder.Services.AddScoped<ISubmissionService, SubmissionService>();
 builder.Services.AddAuthentication("Bearer")
     .AddJwtBearer("Bearer", options =>
     {
@@ -30,7 +36,9 @@ builder.Services.AddAuthentication("Bearer")
             ValidIssuer = builder.Configuration["Jwt:Issuer"],
             ValidAudience = builder.Configuration["Jwt:Audience"],
             IssuerSigningKey = new SymmetricSecurityKey(
-                System.Text.Encoding.UTF8.GetBytes(builder.Configuration["Jwt:Key"]!))
+                System.Text.Encoding.UTF8.GetBytes(builder.Configuration["Jwt:Key"]!)),
+
+            RoleClaimType = "http://schemas.microsoft.com/ws/2008/06/identity/claims/role"
         };
     });
 
