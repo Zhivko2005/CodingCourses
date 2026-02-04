@@ -14,7 +14,7 @@ public class AssignmentsController : ControllerBase
         _service = service;
     }
     [HttpGet("course/{courseId}")]
-    [Authorize] 
+    [AllowAnonymous] 
     public IActionResult GetByCourse(int courseId)
     {
         var assignments = _service.GetByCourse(courseId);

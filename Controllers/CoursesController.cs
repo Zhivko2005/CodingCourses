@@ -33,6 +33,12 @@ namespace CodingCourses.Controllers
             }
             return Ok(course);
         }
+        [HttpGet("category/{categoryId}")]
+        public IActionResult GetByCategory(int categoryId)
+        {
+            var courses = _courseService.GetCoursesByCategory(categoryId);
+            return Ok(courses);
+        }
         [HttpPost]
         [Authorize(Roles = "Admin,Instructor")]
         public IActionResult CreateCourse([FromBody] CourseCreateDto dto)
@@ -60,6 +66,37 @@ namespace CodingCourses.Controllers
                 return Forbid("You are not authorized to delete this course or it does not exist.");
             }
             return NoContent();
+        }
+        
+        [HttpPost("assign-category")]
+        [Authorize(Roles = "Instructor,Admin")]
+        public IActionResult AssignCategory([FromBody] CourseCategoryRequestDto dto)
+        {
+            var success = _courseService.AssignCategory(dto.CourseId, dto.CategoryId, GetUserId(), User.IsInRole("Admin"));
+    
+            if (!success)
+            {
+                return BadRequest("Could not assign category. Check IDs and permissions.");
+            }
+            return Ok("Category assigned successfully.");
+        }
+
+        [HttpDelete("remove-category")]
+        [Authorize(Roles = "Instructor,Admin")]
+        public IActionResult RemoveCategory([FromBody] CourseCategoryRequestDto dto)
+        { 
+            var success = _courseService.RemoveCategory(dto.CourseId, dto.CategoryId, GetUserId(), User.IsInRole("Admin"));
+    
+            if (!success)
+            {
+                return BadRequest("Could not remove category. Check IDs and permissions.");
+            }
+            return NoContent();
+        }
+        public int GetUserId()
+        {
+            var userIdClaim = User.FindFirst(ClaimTypes.NameIdentifier);
+            return int.Parse(userIdClaim!.Value);
         }
     }
 }

@@ -13,11 +13,19 @@ public class UserService : IUserService
     {
         _context = context;
     }
-    public IEnumerable<User> GetAllUsers()
+    public IEnumerable<UserResponseDto> GetAllUsers()
     {
         return _context.Users
         .Include(u => u.UserRoles)
-        .ThenInclude(ur => ur.Role).ToList();
+            .ThenInclude(ur => ur.Role)
+        .Select(u => new UserResponseDto
+        {
+            Id = u.Id,
+            Username = u.Username,
+            Email = u.Email,
+            Roles = u.UserRoles.Select(ur => ur.Role.RoleName).ToList()
+        })
+        .ToList();
     }
     public User? GetUserById(int id)
     {

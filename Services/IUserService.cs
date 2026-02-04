@@ -7,7 +7,7 @@ namespace CodingCourses.Services;
 
 public interface IUserService
 {
-    IEnumerable<User> GetAllUsers();
+    IEnumerable<UserResponseDto> GetAllUsers();
     User? GetUserById(int id); 
     User? UpdateUser(int id, UserUpdateDto userUpdateDto );
     bool DeleteUser(int id);

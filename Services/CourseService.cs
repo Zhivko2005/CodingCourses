@@ -52,6 +52,21 @@ public class CourseService : ICourseService
         };
       
     }
+    public IEnumerable<CourseResponseDto> GetCoursesByCategory(int categoryId)
+    {
+        return _context.CourseCategories
+            .Where(cc => cc.CategoryId == categoryId)
+            .Include(cc => cc.Course) 
+            .Select(cc => new CourseResponseDto
+            {
+                Id = cc.Course.Id,
+                Title = cc.Course.Title,
+                Description = cc.Course.Description,
+                Price = cc.Course.Price,    
+                InstructorName = cc.Course.Teacher.Username
+            })
+            .ToList();
+}
     public CourseResponseDto CreateCourse(CourseCreateDto dto, int teacherId)
     {
         var course = new Course
@@ -91,6 +106,60 @@ public class CourseService : ICourseService
         }
         _context.Courses.Remove(course);
         _context.SaveChanges();
+        return true;
+    }
+    public bool AssignCategory(int courseId, int categoryId, int currentUserId, bool isAdmin)
+    {
+        var course = _context.Courses.Find(courseId);
+        var category = _context.Categories.Find(categoryId);    
+        if (course == null || category == null) return false;
+ 
+        if (!isAdmin && course.TeacherId != currentUserId) return false;
+
+     
+        var alreadyExists = _context.CourseCategories
+            .Any(cc => cc.CourseId == courseId && cc.CategoryId == categoryId);
+
+        if (alreadyExists) return true;  
+
+        var courseCategory = new CourseCategory
+        {
+            CourseId = courseId,
+            CategoryId = categoryId
+        };
+
+        _context.CourseCategories.Add(courseCategory);
+        _context.SaveChanges();
+        return true;
+    }
+    public bool RemoveCategory(int courseId, int categoryId, int currentUserId, bool isAdmin)
+    {
+        // 1. Намираме курса, за да проверим кой е учителят му
+        var course = _context.Courses.Find(courseId);
+        if (course == null) 
+        {
+            return false;
+        }
+
+        // 2. Проверка за права (Само учителят на курса или Админ)
+        if (!isAdmin && course.TeacherId != currentUserId)
+        {
+            return false;
+        }
+
+        // 3. Търсим записа в свързващата таблица
+        var courseCategory = _context.CourseCategories
+            .FirstOrDefault(cc => cc.CourseId == courseId && cc.CategoryId == categoryId);
+
+        if (courseCategory == null)
+        {
+            // Ако такава връзка не съществува, няма какво да трием
+            return false;
+        }
+    // 4. Изтриваме връзката
+        _context.CourseCategories.Remove(courseCategory);
+        _context.SaveChanges();
+
         return true;
     }
 }
