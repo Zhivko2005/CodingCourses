@@ -40,7 +40,7 @@ namespace CodingCourses.Controllers
             return Ok(courses);
         }
         [HttpPost]
-        [Authorize(Roles = "Admin,Instructor")]
+        //[Authorize(Roles = "Admin,Instructor")]
         public IActionResult CreateCourse([FromBody] CourseCreateDto dto)
         {
             var userIdClaim = User.FindFirst(ClaimTypes.NameIdentifier);

@@ -41,7 +41,7 @@ namespace CodingCourses.Controllers
         }
 
         [HttpGet("check")]
-        [Authorize] // Само проверява дали токенът е валиден
+        [Authorize] 
         public IActionResult CheckToken()
         {
         var claims = User.Claims.Select(c => new 

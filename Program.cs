@@ -15,7 +15,21 @@ builder.Services.AddDbContext<AppDbContext>(options =>
 builder.Services.AddControllers()
 .AddNewtonsoftJson(options =>
     options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore)
-.AddApplicationPart(typeof(AuthService).Assembly);
+.AddApplicationPart(typeof(AuthService).Assembly)
+.AddJsonOptions(x => 
+    x.JsonSerializerOptions.PropertyNameCaseInsensitive = true);
+
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("ReactPolicy", builder =>
+    {
+        builder.WithOrigins("http://localhost:5173")
+               .AllowAnyHeader()
+               .AllowAnyMethod();
+    });
+    
+    
+});
 
 builder.Services.AddScoped<IAuthService, AuthService>();
 builder.Services.AddScoped<IUserService, UserService>();
@@ -52,6 +66,9 @@ if (app.Environment.IsDevelopment())
 app.UseRouting();
 
 app.UseHttpsRedirection();
+app.UseCors ("ReactPolicy");
+
+app.UseAuthentication();
 app.UseAuthorization();
 app.MapControllers();
 

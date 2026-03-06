@@ -26,6 +26,7 @@
     <Folder Include="Controllers\" />
     <Folder Include="Data\" />
     <Folder Include="DTOs\" />
+    <Folder Include="my-course-app\src\pages\CoursePage\" />
   </ItemGroup>
 
 </Project>
