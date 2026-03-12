@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using CodingCourses.Services;
 using Microsoft.AspNetCore.Authorization;
+using CodingCourses.DTOs;
 namespace CodingCourses.Controllers
 {
     [Route("api/[controller]")]
@@ -15,7 +16,7 @@ namespace CodingCourses.Controllers
             _authService = authService;
         }
         [HttpPost("register")]
-        public IActionResult Register([FromBody] DTOs.UserRegisterDto userRegisterDto)
+        public IActionResult Register([FromBody] UserRegisterDto userRegisterDto)
         {
             var user = _authService.Register(userRegisterDto);
             if (user == null)
@@ -25,7 +26,7 @@ namespace CodingCourses.Controllers
             return Ok(user);
         }
         [HttpPost("login")]
-        public IActionResult Login([FromBody] DTOs.UserLoginDto userLoginDto)
+        public IActionResult Login([FromBody] UserLoginDto userLoginDto)
         {
             var token = _authService.Login(userLoginDto);
             if (token == null)
@@ -51,11 +52,11 @@ namespace CodingCourses.Controllers
         })
         .ToList();
 
-    return Ok(new {
-        Username = User.Identity?.Name,
-        IsAuthenticated = User.Identity?.IsAuthenticated,
-        AllClaims = claims
-    });
+        return Ok(new {
+            Username = User.Identity?.Name,
+            IsAuthenticated = User.Identity?.IsAuthenticated,
+            AllClaims = claims
+        });
 }
     }
 }

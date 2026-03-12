@@ -24,19 +24,34 @@ public class AuthService : IAuthService
 
     public User? Register(UserRegisterDto dto)
     {
+       
         if(_context.Users.Any(u => u.Email == dto.Email))
         {
             return null;  
         }
         var user = new User
         {
-            Username =  dto.Username,
-            Email = dto.Email,
-            Password = dto.Password 
+        Username =  dto.Username,
+        Email = dto.Email,
+        Password = dto.Password 
         };
+
         _context.Users.Add(user);
         _context.SaveChanges();
-        return user;
+
+        var studentRole = _context.Roles
+        .FirstOrDefault(r => r.RoleName == "Student");
+        if (studentRole != null)
+        {
+            var userRole = new UserRole
+            {
+                UserId = user.Id,
+                RoleId = studentRole.Id
+            };
+            _context.UserRoles.Add(userRole);
+            _context.SaveChanges();
+        }
+        return user;    
     }
 
     public string? Login(UserLoginDto userLoginDto)
