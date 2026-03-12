@@ -24,3 +24,12 @@ export const authService = {
         return response.json();
     }
 }
+export const courseService = {
+    async getAllCourses(){
+        const response = await fetch(`${API_BASE}/api/courses`);
+        if (!response.ok) {
+            throw new Error("Failed to fetch courses");
+        }        
+        return response.json();
+    }
+}

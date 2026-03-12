@@ -19,7 +19,7 @@ export default function LoginPage() {
  
       localStorage.setItem('token', data.token);
       alert('Влизането е успешно!');
-      navigate('/dashboard');  
+      navigate('/');  
     } catch (err) {
       alert(err.message);
     }
