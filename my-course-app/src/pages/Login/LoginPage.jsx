@@ -24,6 +24,7 @@ export default function LoginPage() {
       alert(err.message);
     }
   };
+  
 
   return (
     <div className="auth-wrapper">

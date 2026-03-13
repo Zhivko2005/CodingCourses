@@ -1,0 +1,130 @@
+.admin-page {
+    background-color: #f4f7f6;
+    min-height: 100vh;
+    color: #333 !important;
+}
+
+.admin-header {
+    background: linear-gradient(135deg, #007bff 0%, #003d7a 100%);
+    color: white;
+    padding: 60px 20px;
+    text-align: center;
+    margin-bottom: 40px;
+}
+
+.admin-header h1 { font-size: 2.5rem; margin: 0; color: white; }
+.admin-header p { opacity: 0.9; margin-top: 10px; color: white; }
+
+.admin-grid {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px 50px;
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 30px;
+}
+
+@media (min-width: 1024px) {
+    .admin-grid { grid-template-columns: 1.6fr 1fr; }
+}
+
+.admin-card {
+    background: white;
+    padding: 25px;
+    border-radius: 12px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+}
+
+.admin-card h2 {
+    color: #222;
+    font-size: 1.5rem;
+    margin-bottom: 25px;
+    padding-bottom: 12px;
+    border-bottom: 2px solid #e9ecef;
+}
+
+.admin-table { width: 100%; border-collapse: collapse; }
+.admin-table th { 
+    text-align: left; 
+    padding: 12px; 
+    color: #007bff; 
+    border-bottom: 2px solid #f4f7f6;
+}
+.admin-table td { padding: 15px 12px; border-bottom: 1px solid #f4f7f6; }
+
+.user-name { display: block; font-weight: 600; }
+.user-email { font-size: 0.85rem; color: #777; }
+
+.roles-container { display: flex; flex-wrap: wrap; gap: 8px; }
+
+.role-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 5px 12px;
+    border-radius: 20px;
+    font-size: 0.75rem;
+    font-weight: bold;
+    text-transform: uppercase;
+}
+
+.role-badge.admin { background: #fff3cd; color: #856404 !important; border: 1px solid #ffeeba; }
+.role-badge.instructor { background: #cfe2ff; color: #084298 !important; border: 1px solid #b6d4fe; }
+.role-badge.student { background: #d4edda; color: #155724 !important; border: 1px solid #c3e6cb; cursor: default; }
+
+.remove-role-btn {
+    background: rgba(0,0,0,0.08);
+    border: none;
+    cursor: pointer;
+    border-radius: 50%;
+    width: 16px; height: 16px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 12px;
+}
+
+.remove-role-btn:hover { background: #dc3545; color: white; }
+
+.role-actions { display: flex; gap: 10px; align-items: center; }
+.role-actions select {
+    padding: 7px;
+    border-radius: 6px;
+    border: 1px solid #ddd;
+}
+
+.role-actions select option:disabled { color: #ccc; }
+
+.btn-icon.delete {
+    background: #fff5f5;
+    border: 1px solid #feb2b2;
+    padding: 8px 12px;
+    border-radius: 8px;
+    cursor: pointer;
+}
+
+.btn-icon.delete:hover { background: #dc3545; color: white; }
+
+.admin-course-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px;
+    background: #f8f9fa;
+    border-radius: 10px;
+    margin-bottom: 12px;
+    border-left: 4px solid #007bff;
+}
+
+.course-title { font-weight: 600; color: #003d7a; }
+.course-id { font-size: 0.8rem; color: #999; display: block; }
+
+.delete-text {
+    background: none;
+    border: none;
+    color: #dc3545;
+    font-weight: 700;
+    cursor: pointer;
+}
+
+.delete-text:hover { text-decoration: underline; }
+
+.admin-loading { text-align: center; padding: 50px; color: #007bff; }
