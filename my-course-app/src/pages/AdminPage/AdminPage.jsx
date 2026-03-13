@@ -72,9 +72,9 @@ export default function AdminPage() {
     if (loading) return <div className="admin-loading">Зареждане...</div>;
 
     return (
-        <div className="admin-page">
+       <div className="admin-page">
             <header className="admin-header">
-                <h1>Контролен панел</h1>
+                <h1>Административен панел</h1>
                 <p>Управление на потребители, роли и учебни курсове</p>
             </header>
 
@@ -85,6 +85,7 @@ export default function AdminPage() {
                         <table className="admin-table">
                             <thead>
                                 <tr>
+                                    <th>ID</th>
                                     <th>Потребител</th>
                                     <th>Роли</th>
                                     <th>Действия</th>
@@ -93,6 +94,7 @@ export default function AdminPage() {
                             <tbody>
                                 {users.map(user => (
                                     <tr key={user.id}>
+                                        <td className="id-cell">{user.id}</td>
                                         <td>
                                             <div className="user-info">
                                                 <span className="user-name">{user.username}</span>
@@ -140,7 +142,10 @@ export default function AdminPage() {
                                 <div key={course.id} className="admin-course-item">
                                     <div className="course-info">
                                         <span className="course-title">{course.title}</span>
-                                        <span className="course-id">ID: {course.id}</span>
+                                        <div className="course-ids">
+                                            <span className="course-id">Course ID: {course.id}</span>
+                                            <span className="instructor-name">Instructor name: {course.instructorName||'N/A'}</span>
+                                        </div>
                                     </div>
                                     <button onClick={() => handleDeleteCourse(course.id)} className="delete-text">Премахни</button>
                                 </div>

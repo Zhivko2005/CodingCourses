@@ -16,7 +16,7 @@
 .admin-header p { opacity: 0.9; margin-top: 10px; color: white; }
 
 .admin-grid {
-    max-width: 1200px;
+    max-width: 1400px; /* Малко по-широко заради новите ID колони */
     margin: 0 auto;
     padding: 0 20px 50px;
     display: grid;
@@ -49,8 +49,19 @@
     padding: 12px; 
     color: #007bff; 
     border-bottom: 2px solid #f4f7f6;
+    font-size: 0.9rem;
 }
-.admin-table td { padding: 15px 12px; border-bottom: 1px solid #f4f7f6; }
+.admin-table td { padding: 15px 12px; border-bottom: 1px solid #f4f7f6; font-size: 0.9rem; }
+
+/* Стил за ID клетката */
+.id-cell {
+    font-family: monospace;
+    color: #888;
+    font-size: 0.8rem;
+    max-width: 80px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
 
 .user-name { display: block; font-weight: 600; }
 .user-email { font-size: 0.85rem; color: #777; }
@@ -114,8 +125,25 @@
     border-left: 4px solid #007bff;
 }
 
-.course-title { font-weight: 600; color: #003d7a; }
-.course-id { font-size: 0.8rem; color: #999; display: block; }
+.course-title { font-weight: 600; color: #003d7a; margin-bottom: 4px; display: block; }
+
+/* Стил за контейнера с ID-та в курсовете */
+.course-ids {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+}
+
+.course-id, .instructor-name { 
+    font-size: 0.75rem; 
+    color: #999; 
+    font-family: monospace;
+}
+
+.instructor-name {
+    color: #007bff;
+    font-weight: 500;
+}
 
 .delete-text {
     background: none;
