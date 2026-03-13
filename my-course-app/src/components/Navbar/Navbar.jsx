@@ -6,7 +6,8 @@ export default function Navbar() {
     const nav = useNavigate();
     const token = localStorage.getItem('token');
     const isAuthenticated = !!token;
-     
+    
+    let isInstructor = false;
     let isAdmin = false;
     if (token) {
         try {
@@ -15,8 +16,9 @@ export default function Navbar() {
         const roles = decoded["http://schemas.microsoft.com/ws/2008/06/identity/claims/role"] 
                       || decoded.role 
                       || decoded.roles;
-
-        isAdmin = Array.isArray(roles) ? roles.includes('Admin') : roles === 'Admin';
+        const rolesArray = Array.isArray(roles) ? roles : [roles];
+        isAdmin = rolesArray.includes('Admin');
+        isInstructor = rolesArray.includes('Instructor');
         } catch (error) {
             console.error("Invalid token", error);
         }
@@ -33,11 +35,7 @@ export default function Navbar() {
             <Link to="/" className="logo">CodingCourses</Link>
           
             <div className="nav-buttons"> 
-                {isAdmin && location.pathname !== '/admin' && (
-                    <button onClick={() => nav('/admin')} className="btn-admin">
-                        Admin Panel
-                    </button>
-                )}
+               
 
                 {!isAuthenticated ? (
                     <>
@@ -46,6 +44,16 @@ export default function Navbar() {
                     </>
                 ) : (
                     <button onClick={handleLogout} className="btn-logout">Logout</button>
+                )}
+                 {isAdmin && location.pathname !== '/admin' && (
+                    <button onClick={() => nav('/admin')} className="btn-admin">
+                        Admin Panel
+                    </button>
+                )}
+                {isInstructor && location.pathname !== '/my-courses' && (
+                    <button onClick={() => nav('/my-courses')} className="btn-instructor">
+                        Instructor Panel
+                    </button>
                 )}
             </div>
         </nav>

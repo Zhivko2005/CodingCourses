@@ -5,6 +5,7 @@ import LoginPage from './pages/Login/LoginPage';
 import RegisterPage from './pages/Register/RegisterPage';
 import AdminPage from './pages/AdminPage/AdminPage';
 import AdminRoute from './components/AdminRoute'; 
+import InstructorCoursesPage from './pages/InstuctorCourses/InstructorCoursesPage'; 
 
 function App() {
   return (
@@ -23,7 +24,7 @@ function App() {
             </AdminRoute>
           } 
         />
-
+        <Route path="/my-courses" element={<InstructorCoursesPage />} />
         <Route path="*" element={<h2>404 - Страницата не е намерена</h2>} />
       </Routes>
     </Router>

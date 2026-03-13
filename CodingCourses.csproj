@@ -27,6 +27,7 @@
     <Folder Include="Data\" />
     <Folder Include="DTOs\" />
     <Folder Include="my-course-app\src\pages\CoursePage\" />
+    <Folder Include="my-course-app\src\pages\InstuctorCourses\" />
   </ItemGroup>
 
 </Project>

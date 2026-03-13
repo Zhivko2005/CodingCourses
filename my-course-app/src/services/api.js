@@ -1,3 +1,5 @@
+
+import axios from 'axios';
 const API_BASE = "https://localhost:5000";
 
 
@@ -41,6 +43,13 @@ export const courseService = {
             headers: getAuthHeaders() 
         });
         if (!response.ok) throw new Error("Failed to delete course");
+    },
+     async getInstructorCourses() {
+       const token = localStorage.getItem('token');
+       const response = await axios.get(`${API_BASE}/api/courses/my-courses`, {
+           headers: {Authorization: `Bearer ${token}`}
+       });
+       return response.data;
     }
 }
 

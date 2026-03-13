@@ -33,6 +33,18 @@ namespace CodingCourses.Controllers
             }
             return Ok(course);
         }
+        [HttpGet("my-courses")]
+        public IActionResult GetCoursesByInstructor(int instructorId)
+        {
+            var userIdClaim = User.FindFirst(ClaimTypes.NameIdentifier);
+            if (userIdClaim == null) 
+            {
+                return Unauthorized("User is not authenticated to view courses.");
+            }
+            instructorId = int.Parse(userIdClaim.Value);
+            var courses = _courseService.GetCoursesByInstructor(instructorId);
+            return Ok(courses);
+        }
         [HttpGet("category/{categoryId}")]
         public IActionResult GetByCategory(int categoryId)
         {

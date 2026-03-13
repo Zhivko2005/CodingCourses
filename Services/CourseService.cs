@@ -66,7 +66,28 @@ public class CourseService : ICourseService
                 InstructorName = cc.Course.Teacher.Username
             })
             .ToList();
-}
+    }
+    public IEnumerable<CourseResponseDto> GetCoursesByInstructor(int instructorId)
+    {
+        return _context.Courses
+            .Where(c => c.TeacherId == instructorId)
+            .Include(c => c.Teacher)
+            .Include(c => c.CourseCategories)
+                .ThenInclude(cc => cc.Category)  
+            .Select(c => new CourseResponseDto
+            {
+                Id = c.Id,
+                Title = c.Title,
+                Description = c.Description,
+                Price = c.Price,
+                InstructorId = c.Teacher.Id,
+                InstructorName = c.Teacher.Username,
+                Categories = c.CourseCategories
+                    .Select(cc => cc.Category.CategoryName)
+                    .ToList()
+            })
+            .ToList();
+    }
     public CourseResponseDto CreateCourse(CourseCreateDto dto, int teacherId)
     {
         var course = new Course
@@ -134,29 +155,24 @@ public class CourseService : ICourseService
     }
     public bool RemoveCategory(int courseId, int categoryId, int currentUserId, bool isAdmin)
     {
-        // 1. Намираме курса, за да проверим кой е учителят му
         var course = _context.Courses.Find(courseId);
         if (course == null) 
         {
             return false;
         }
 
-        // 2. Проверка за права (Само учителят на курса или Админ)
         if (!isAdmin && course.TeacherId != currentUserId)
         {
             return false;
         }
 
-        // 3. Търсим записа в свързващата таблица
         var courseCategory = _context.CourseCategories
             .FirstOrDefault(cc => cc.CourseId == courseId && cc.CategoryId == categoryId);
 
         if (courseCategory == null)
         {
-            // Ако такава връзка не съществува, няма какво да трием
             return false;
         }
-    // 4. Изтриваме връзката
         _context.CourseCategories.Remove(courseCategory);
         _context.SaveChanges();
 
