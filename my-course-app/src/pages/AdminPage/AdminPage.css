@@ -16,7 +16,7 @@
 .admin-header p { opacity: 0.9; margin-top: 10px; color: white; }
 
 .admin-grid {
-    max-width: 1400px; /* Малко по-широко заради новите ID колони */
+    max-width: 1400px;  
     margin: 0 auto;
     padding: 0 20px 50px;
     display: grid;
@@ -52,8 +52,7 @@
     font-size: 0.9rem;
 }
 .admin-table td { padding: 15px 12px; border-bottom: 1px solid #f4f7f6; font-size: 0.9rem; }
-
-/* Стил за ID клетката */
+ 
 .id-cell {
     font-family: monospace;
     color: #888;
@@ -127,7 +126,6 @@
 
 .course-title { font-weight: 600; color: #003d7a; margin-bottom: 4px; display: block; }
 
-/* Стил за контейнера с ID-та в курсовете */
 .course-ids {
     display: flex;
     flex-direction: column;

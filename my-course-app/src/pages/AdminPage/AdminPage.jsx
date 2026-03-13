@@ -144,7 +144,7 @@ export default function AdminPage() {
                                         <span className="course-title">{course.title}</span>
                                         <div className="course-ids">
                                             <span className="course-id">Course ID: {course.id}</span>
-                                            <span className="instructor-name">Instructor name: {course.instructorName||'N/A'}</span>
+                                            <span className="instructor-name">Instructor: {course.instructorName||'N/A'}</span>
                                         </div>
                                     </div>
                                     <button onClick={() => handleDeleteCourse(course.id)} className="delete-text">Премахни</button>
