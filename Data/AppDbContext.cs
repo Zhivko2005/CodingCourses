@@ -53,7 +53,18 @@ public class AppDbContext : DbContext
             .HasForeignKey(c => c.TeacherId)
             .OnDelete(DeleteBehavior.Restrict);
 
+       modelBuilder.Entity<Assignment>()
+        .HasOne(a => a.Lesson)
+        .WithMany(l => l.Assignments) 
+        .HasForeignKey(a => a.LessonId)
+        .OnDelete(DeleteBehavior.Cascade);
     
+
+    modelBuilder.Entity<Assignment>()
+        .HasOne(a => a.Course)
+        .WithMany()
+        .HasForeignKey(a => a.CourseId)
+        .OnDelete(DeleteBehavior.NoAction); 
         modelBuilder.Entity<Role>().HasData(
             new Role { Id = 1, RoleName = "Admin" },
             new Role { Id = 2, RoleName = "Instructor" },

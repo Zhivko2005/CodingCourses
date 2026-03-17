@@ -9,6 +9,7 @@ public class Assignment
     public int CourseId { get; set; } 
     public Course Course { get; set; } = null!;
 
+    public int? LessonId { get; set; }
+    public Lesson? Lesson { get; set; } = null!;
     public ICollection<Submission> Submissions { get; set; } = new List<Submission>(); 
-
 }

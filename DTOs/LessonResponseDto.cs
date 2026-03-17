@@ -8,4 +8,5 @@ public class LessonResponseDto
     public string LessonTitle { get; set; } = string.Empty;
     public string Content { get; set; } = string.Empty;
     public int CourseId { get; set; }
+    
 }
