@@ -50,6 +50,18 @@ export const courseService = {
            headers: {Authorization: `Bearer ${token}`}
        });
        return response.data;
+    },
+    async UploadLessonVideo (lessonId, file) {
+        const formData = new FormData();
+        formData.append('file', file);
+        const token = localStorage.getItem('token');
+        const response = await axios.post(`${API_BASE}/api/lessons/${lessonId}/videos`, formData, {
+            headers: {
+                'Authorization': `Bearer ${localStorage.getItem('token')}`,
+                'Content-Type': 'multipart/form-data'
+            }
+        });
+        return response.data;
     }
 }
 

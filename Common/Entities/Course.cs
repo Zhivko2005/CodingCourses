@@ -11,7 +11,7 @@ public class Course
     
     [Column(TypeName = "decimal(18,2)")]
     public decimal Price { get; set; } 
-
+ 
     public string PreviewVideoUrl { get; set; } = null!; 
     public int TeacherId { get; set; }  
     public User Teacher { get; set; } = null!;

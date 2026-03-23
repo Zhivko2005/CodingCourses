@@ -10,5 +10,6 @@ public class CourseResponseDto
     public decimal Price { get; set; }
     public int InstructorId { get; set; }
     public string InstructorName { get; set; } = string.Empty;
+    public string PreviewVideoUrl { get; set; } = string.Empty;
     public List<string> Categories { get; set; } = new List<string>();
 }

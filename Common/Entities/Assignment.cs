@@ -13,3 +13,4 @@ public class Assignment
     public Lesson? Lesson { get; set; } = null!;
     public ICollection<Submission> Submissions { get; set; } = new List<Submission>(); 
 }
+ 

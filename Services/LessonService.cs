@@ -24,8 +24,9 @@ public class LessonService : ILessonService
         {
             dtos.Add(new LessonResponseDto {
                 Id = l.Id,
-                LessonTitle = l.LessonTitle,
-                Content = l.Content,
+                Title = l.LessonTitle,
+                Description = l.Description,
+                VideoUrl = l.VideoUrl,
                 CourseId = l.CourseId
             });
         }
@@ -43,8 +44,9 @@ public class LessonService : ILessonService
 
         return new LessonResponseDto { 
             Id = l.Id, 
-            LessonTitle = l.LessonTitle, 
-            Content = l.Content, 
+            Title = l.LessonTitle,
+            Description = l.Description, 
+            VideoUrl = l.VideoUrl, 
             CourseId = l.CourseId 
         };
     }
@@ -64,7 +66,8 @@ public class LessonService : ILessonService
 
         var lesson = new Lesson { 
             LessonTitle = dto.Title, 
-            Content = dto.Content, 
+            Description = dto.Description,
+            VideoUrl = dto.VideoUrl,
             CourseId = dto.CourseId 
         };
 
@@ -88,8 +91,9 @@ public class LessonService : ILessonService
         }
 
         lesson.LessonTitle = dto.Title;
-        lesson.Content = dto.Content;
-        
+        lesson.Description = dto.Description;
+        lesson.VideoUrl = dto.VideoUrl;
+
         _context.SaveChanges();
         return GetLessonById(lesson.Id);
     }
