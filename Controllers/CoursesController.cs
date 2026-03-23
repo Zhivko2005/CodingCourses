@@ -65,6 +65,24 @@ namespace CodingCourses.Controllers
             return CreatedAtAction(nameof(GetCourseById), new { id = result.Id }, result);
 
         }
+
+        [HttpPut("{id}")]
+        [Authorize(Roles = "Admin,Instructor")]
+        public IActionResult UpdateCourse(int id, [FromForm] CourseCreateDto dto)  
+        {
+            var currentUserId = GetUserId();
+            var isAdmin = User.IsInRole("Admin");
+ 
+            var success = _courseService.UpdateCourse(id, dto, currentUserId, isAdmin);
+
+            if (!success)
+            {
+                return BadRequest("Нямате право да редактирате този курс или курсът не е намерен.");
+            }
+
+            return Ok(new { message = "Курсът беше обновен успешно." });
+        }
+
         [HttpDelete("{id}")]
         [Authorize(Roles = "Admin,Instructor")]
         public IActionResult DeleteCourse(int id)

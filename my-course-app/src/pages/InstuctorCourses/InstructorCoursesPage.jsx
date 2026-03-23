@@ -1,4 +1,5 @@
 import {useState, useEffect} from 'react';
+import { useNavigate } from 'react-router-dom';
 import { courseService } from '../../services/api';
 import './InstructorCoursesPage.css';
 
@@ -6,7 +7,7 @@ export default function InstructorCoursesPage(){
     const [courses, setCourses] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
-
+    const navigate = useNavigate();
     useEffect(() => {
         const loadCourses = async () => {
             try {
@@ -63,9 +64,9 @@ export default function InstructorCoursesPage(){
                                     </div>
                                 </div>
                                 <div className="course-card-actions">
-                                    <button 
+                                    <button     
                                         className="btn-edit-course" 
-                                        onClick={() => console.log("Редактиране на курс:", course.id)}
+                                        onClick={() => navigate(`/edit-course/${course.id}`)}
                                     >
                                         ✏️ Редактирай
                                     </button>

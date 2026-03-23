@@ -13,4 +13,5 @@ public interface ICourseService
     bool DeleteCourse(int courseId, int currentUserId, bool isAdmin);   
     bool AssignCategory(int courseId, int categoryId, int currentUserId, bool isAdmin);
     bool RemoveCategory(int courseId, int categoryId, int currentUserId, bool isAdmin); 
+    bool UpdateCourse(int id, CourseCreateDto dto, int currentUserId, bool isAdmin);
 }

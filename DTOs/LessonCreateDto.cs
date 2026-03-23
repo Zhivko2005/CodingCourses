@@ -9,4 +9,3 @@ public class LessonCreateDto
     public string VideoUrl { get; set; } = null!;
     public int CourseId { get; set; }
 }
- 

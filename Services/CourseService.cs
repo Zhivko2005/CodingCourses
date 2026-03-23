@@ -178,4 +178,49 @@ public class CourseService : ICourseService
 
         return true;
     }
+    public bool UpdateCourse(int id, CourseCreateDto dto, int currentUserId, bool isAdmin)
+    {   
+
+        
+        var course = _context.Courses
+        .Include(c => c.CourseCategories)
+        .FirstOrDefault(c => c.Id == id);
+        if (course == null) return false;
+ 
+        if (!isAdmin && course.TeacherId != currentUserId)
+        {
+            return false;
+        }
+
+        course.Title = dto.Title;
+        course.Description = dto.Description;
+        course.Price = dto.Price;
+        course.PreviewVideoUrl = dto.PreviewVideoUrl;
+        if (dto.CategoryIds != null && dto.CategoryIds.Any())
+        {
+            foreach (var catId in dto.CategoryIds)
+            { 
+                if (_context.Categories.Any(cat => cat.Id == catId))
+                {
+                    course.CourseCategories.Add(new CourseCategory 
+                    { 
+                        CourseId = id, 
+                        CategoryId = catId 
+                    });
+                }   
+            }
+        }
+        _context.CourseCategories.RemoveRange(course.CourseCategories);
+
+        try
+        {
+            _context.SaveChanges();
+            return true;
+        }
+        catch (Exception)
+        {
+        
+            return false;
+        }
+    }
 }

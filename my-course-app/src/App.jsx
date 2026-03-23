@@ -6,6 +6,7 @@ import RegisterPage from './pages/Register/RegisterPage';
 import AdminPage from './pages/AdminPage/AdminPage';
 import AdminRoute from './components/AdminRoute'; 
 import InstructorCoursesPage from './pages/InstuctorCourses/InstructorCoursesPage'; 
+import EditCoursePage from './pages/EditCoursePage/EditCoursePage';
 
 function App() {
   return (
@@ -15,7 +16,6 @@ function App() {
         <Route path="/" element={<HomePage />} />
         <Route path="/login" element={<LoginPage />} />
         <Route path="/register" element={<RegisterPage />} />
-
         <Route 
           path="/admin" 
           element={
@@ -25,6 +25,7 @@ function App() {
           } 
         />
         <Route path="/my-courses" element={<InstructorCoursesPage />} />
+        <Route path="/edit-course/:id" element={<EditCoursePage />} />
         <Route path="*" element={<h2>404 - Страницата не е намерена</h2>} />
       </Routes>
     </Router>

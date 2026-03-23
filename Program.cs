@@ -4,6 +4,7 @@ using CodingCourses.Data;
 using CodingCourses.Services;
 using Microsoft.IdentityModel.Tokens; 
 using Microsoft.AspNetCore.Mvc.NewtonsoftJson;
+using CodingCourses.Helpers;
 var builder = WebApplication.CreateBuilder(args);
 
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
@@ -30,6 +31,7 @@ builder.Services.AddCors(options =>
     
     
 });
+builder.Services.Configure<CloudinarySettings>(builder.Configuration.GetSection("CloudinarySettings"));
 
 builder.Services.AddScoped<IAuthService, AuthService>();
 builder.Services.AddScoped<IUserService, UserService>();
@@ -39,6 +41,7 @@ builder.Services.AddScoped<ILessonService, LessonService>();
 builder.Services.AddScoped<IAssignmentService, AssignmentService>();
 builder.Services.AddScoped<ISubmissionService, SubmissionService>();
 builder.Services.AddScoped<IEnrollmentService, EnrollmentService>();
+builder.Services.AddScoped<IMediaService, MediaService>();
 builder.Services.AddAuthentication("Bearer")
     .AddJwtBearer("Bearer", options =>
     {
